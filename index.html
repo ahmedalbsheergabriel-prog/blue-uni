@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Uni - V4 PRO MAX</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#0f172a;color:#fff}
+header{position:sticky;top:0;z-index:99;background:#1e293b;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #3b82f6}
+.logo{font-size:22px;font-weight:900;color:#60a5fa}
+.logo span{color:#f472b6}
+.search{flex:1;margin:0 12px}
+.search input{width:100%;padding:10px 14px;border-radius:20px;border:none;background:#0f172a;color:#fff;outline:none}
+.topBtns{display:flex;gap:8px}
+.topBtns button{background:#3b82f6;border:none;color:#fff;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:700}
+.container{max-width:1100px;margin:auto;display:grid;grid-template-columns:250px 1fr 280px;gap:14px;padding:14px}
+.card{background:#1e293b;border-radius:16px;padding:14px;margin-bottom:14px;border:1px solid #334155}
+.sidebar a{display:block;padding:10px;border-radius:10px;cursor:pointer}
+.sidebar a:hover,.sidebar a.active{background:#3b82f6}
+.stories{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.story{min-width:90px;height:140px;border-radius:14px;background:linear-gradient(#ec4899,#3b82f6);display:flex;flex-direction:column;justify-content:flex-end;padding:8px;cursor:pointer;font-size:13px;font-weight:700}
+.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(#f472b6,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:20px}
+.postBox textarea{width:100%;background:#0f172a;border:none;color:#fff;padding:12px;border-radius:12px;resize:none;outline:none}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.actions button{border:none;padding:8px 12px;border-radius:20px;cursor:pointer;background:#334155;color:#fff}
+.actions button.primary{background:#3b82f6}
+.post{margin-bottom:14px}
+.postActions{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.postActions span{cursor:pointer}
+.btn{width:100%;background:#3b82f6;color:#fff;border:none;padding:10px;border-radius:12px;font-weight:800;cursor:pointer;margin-top:8px}
+.btn.pink{background:#ec4899}
+.btn.gold{background:#f59e0b;color:#000}
+input,select{width:100%;padding:10px;border-radius:10px;border:none;background:#0f172a;color:#fff;margin-top:8px;outline:none}
+.chatBox{height:280px;overflow-y:auto;background:#0f172a;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.msg{padding:8px 12px;border-radius:14px;max-width:80%;font-size:14px}
+.msg.me{background:#3b82f6;align-self:flex-start}
+.msg.other{background:#334155;align-self:flex-end}
+.stickerGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;font-size:26px;text-align:center}
+.stickerGrid div{background:#0f172a;padding:10px;border-radius:12px;cursor:pointer}
+.hidden{display:none}
+.badge{background:#ef4444;padding:2px 7px;border-radius:20px;font-size:11px}
+@media(max-width:900px){.container{grid-template-columns:1fr}.sidebar,.right{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Blue <span>Uni</span> V4</div>
+<div class="search"><input id="searchInput" placeholder="🔍 ابحث عن ناس، قروبات، هاشتاق #... " oninput="searchAll()"></div>
+<div class="topBtns">
+<button onclick="toggleTheme()">🎨 ثيم</button>
+<button onclick="openModal('storeModal')">🛒 متجر</button>
+<button onclick="openModal('chatModal')">💬 شات <span class="badge">9+</span></button>
+</div>
+</header>
+<div class="container">
+<div class="sidebar card">
+<div style="display:flex;gap:10px;align-items:center"><div class="avatar">👤</div><div><b>أحمد Gabriel</b><br><small style="color:#94a3b8">@ahmedalbsheergabriel-prog</small></div></div><hr style="margin:12px 0;border-color:#334155">
+<a class="active">🏠 الرئيسية</a>
+<a onclick="showSection('reels')">🎬 ريلز</a>
+<a onclick="openModal('chatModal')">💬 رسائل <span class="badge">12</span></a>
+<a onclick="openModal('storeModal')">🏪 متجر ملصقات</a>
+<a onclick="openModal('themeModal')">🎨 متجر الثيمات</a>
+<a onclick="openModal('groupModal')">👥 إنشاء قروب</a>
+<a onclick="summarizeAll()">🤖 ملخصات AI</a>
+<a onclick="alert('إحصائياتك: 1,240 مشاهدة اليوم 🔥')">📊 إحصائياتي</a>
+<a onclick="alert('تم حفظ كل بوستاتك ✅')">📦 أرشيف</a>
+</div>
+<div>
+<div class="card stories">
+<div class="story" onclick="addStory()">+<br>إضافة ستوري</div>
+<div class="story" onclick="viewStory('سارة')">👩 سارة<br>قبل 5د</div>
+<div class="story" onclick="viewStory('محمد')">👨 محمد<br>قبل 12د</div>
+<div class="story" onclick="viewStory('نور')">👩 نور<br>قبل 20د</div>
+<div class="story" onclick="viewStory('ريم')">👩 ريم<br>لايف 🔴</div>
+</div>
+<div class="card postBox">
+<div style="display:flex;gap:10px"><div class="avatar">👤</div><textarea id="postText" rows="2" placeholder="شنو الجديد يا أحمد؟"></textarea></div>
+<div class="actions">
+<button onclick="addPost()">📝 نشر</button>
+<button onclick="addPost('📸 صورة')">📸 صورة</button>
+<button onclick="addPost('🎬 ريلز')">🎬 ريلز</button>
+<button onclick="openModal('stickerModal')">😀 ملصق</button>
+<button onclick="createPoll()">📊 استطلاع</button>
+<button onclick="alert('تم بدء بث مباشر 🔴')">🔴 لايف</button>
+</div>
+<div id="aiSummary" style="margin-top:10px;background:#0f172a;padding:10px;border-radius:10px;display:none"></div>
+</div>
+<div id="feed"></div>
+<div class="card" style="text-align:center">
+<h3>🛒 السوق - Blue Market</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+<div style="background:#0f172a;padding:12px;border-radius:12px">👟 حذاء نايك<br><b>45,000 ج</b><br><button class="btn" onclick="alert('تمت الإضافة للسلة ✅')">أضف للسلة</button></div>
+<div style="background:#0f172a;padding:12px;border-radius:12px">📱 آيفون 13<br><b>890,000 ج</b><br><button class="btn pink" onclick="alert('تم التواصل مع البائع ✅')">تواصل</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="card">
+<h3>💬 شات سريع</h3>
+<div class="chatBox" id="chatBox">
+<div class="msg other">أهلاً أحمد 🔥 شفت بوستك؟</div>
+<div class="msg me">أيوا، رهيب صح؟</div>
+<div class="msg other">أرهب موقع والله 👏</div>
+</div>
+<div style="display:flex;gap:6px;margin-top:8px"><input id="chatInput" placeholder="اكتب رسالة..."><button onclick="sendChat()" style="background:#3b82f6;border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer">➤</button></div>
+<button class="btn gold" onclick="createExternalChat()">🔗 إنشاء شات خارجي</button>
+<p id="externalLink" style="font-size:12px;word-break:break-all;margin-top:6px;color:#fbbf24"></p>
+</div>
+<div class="card">
+<h3>🔥 ترند الآن</h3>
+<p style="margin-top:8px">#BlueUni<br><small style="color:#94a3b8">12.4K بوست</small></p>
+<p style="margin-top:8px">#السودان<br><small style="color:#94a3b8">8.1K بوست</small></p>
+</div>
+<div class="card">
+<h3>👥 قروبات مقترحة</h3>
+<div style="display:flex;justify-content:space-between;margin-top:10px">جامعة النيلين <button onclick="joinGroup(this)" style="background:#3b82f6;border:none;color:#fff;padding:6px 10px;border-radius:20px;cursor:pointer">انضم</button></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px">مبرمجين السودان <button onclick="joinGroup(this)" style="background:#3b82f6;border:none;color:#fff;padding:6px 10px;border-radius:20px;cursor:pointer">انضم</button></div>
+</div>
+</div>
+</div>
+<div id="storeModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999">
+<div class="card" style="width:90%;max-width:500px"><h2>🏪 متجر الملصقات والشيتات</h2>
+<div class="stickerGrid" style="margin-top:12px">
+<div onclick="useSticker('🔥')">🔥</div><div onclick="useSticker('❤️')">❤️</div><div onclick="useSticker('😂')">😂</div><div onclick="useSticker('😍')">😍</div><div onclick="useSticker('👏')">👏</div>
+<div onclick="useSticker('🇸🇩')">🇸🇩</div><div onclick="useSticker('⚽')">⚽</div><div onclick="useSticker('🎮')">🎮</div><div onclick="useSticker('🎵')">🎵</div><div onclick="useSticker('💎')">💎</div>
+</div>
+<h3 style="margin-top:14px">🎨 ثيمات</h3>
+<button class="btn" onclick="setTheme('blue')">أزرق مجاني</button>
+<button class="btn pink" onclick="setTheme('pink')">وردي - 500 ج</button>
+<button class="btn gold" onclick="setTheme('gold')">ذهبي VIP - 1000 ج</button>
+<button class="btn" style="background:#334155" onclick="closeModal('storeModal')">إغلاق</button>
+</div></div>
+<div id="chatModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999">
+<div class="card" style="width:90%;max-width:450px"><h2>💬 الشات الخارجي</h2><input placeholder="اسم الشخص أو رقم الواتساب"><button class="btn" onclick="alert('تم إنشاء رابط شات خارجي ✅')">🔗 إنشاء رابط خارجي</button><button class="btn pink" onclick="alert('تم فتح شات جماعي ✅')">👥 شات جماعي</button><button class="btn" style="background:#334155" onclick="closeModal('chatModal')">إغلاق</button></div></div>
+<div id="groupModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999">
+<div class="card" style="width:90%;max-width:450px"><h2>👥 إنشاء قروب</h2><input id="groupName" placeholder="اكتب اسم القروب"><select><option>عام</option><option>خاص</option><option>سري</option></select><button class="btn" onclick="createGroup()">إنشاء ✅</button><button class="btn" style="background:#334155" onclick="closeModal('groupModal')">إغلاق</button></div></div>
+<div id="stickerModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999">
+<div class="card" style="width:90%;max-width:400px"><h2>😀 اختار ملصق</h2><div class="stickerGrid" style="margin-top:10px"><div onclick="useSticker('🔥')">🔥</div><div onclick="useSticker('😂')">😂</div><div onclick="useSticker('❤️')">❤️</div><div onclick="useSticker('🇸🇩')">🇸🇩</div><div onclick="useSticker('👑')">👑</div></div><button class="btn" style="background:#334155" onclick="closeModal('stickerModal')">إغلاق</button></div></div>
+<div id="themeModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999">
+<div class="card" style="width:90%;max-width:400px"><h2>🎨 متجر الثيمات</h2><button class="btn" onclick="setTheme('blue');closeModal('themeModal')">أزرق</button><button class="btn pink" onclick="setTheme('pink');closeModal('themeModal')">وردي</button><button class="btn gold" onclick="setTheme('gold');closeModal('themeModal')">ذهبي</button></div></div>
+<script>
+let posts=[
+{name:"سارة أحمد",time:"قبل 5 د",text:"يا جماعة Blue Uni بقى أرهب تطبيق في السودان 🔥🔥 منو جرب الشات الخارجي؟",likes:124,comments:32},
+{name:"محمد علي",time:"قبل 12 د",text:"الملصقات الجديدة رهيبة 😂😂 جربو ملصق السودان 🇸🇩",likes:89,comments:18},
+{name:"نور الهدى",time:"قبل 1 س",text:"عملت ملخص AI لأطول بوست، لخصو لي في سطرين بس! 🤖",likes:210,comments:45}
+];
+function render(){
+let f=document.getElementById('feed');f.innerHTML='';
+posts.forEach((p,i)=>{
+f.innerHTML+=`<div class="card post"><div style="display:flex;gap:10px;align-items:center"><div class="avatar">👤</div><div><b>${p.name}</b><br><small style="color:#94a3b8">${p.time}</small></div><span style="margin-right:auto;cursor:pointer" onclick="alert('تم الحفظ • تمت المتابعة')">...</span></div><p style="margin-top:10px;line-height:1.6">${p.text}</p><div class="postActions"><span onclick="likePost(${i})">❤️ ${p.likes}</span><span onclick="alert('اكتب تعليقك...')">💬 ${p.comments} تعليق</span><span onclick="sharePost()">↗️ مشاركة</span><span onclick="summarizePost(${i})">🤖 ملخص AI</span><span onclick="alert('تمت الترجمة ✅')">🌐 ترجمة</span><span onclick="alert('تم الحفظ ✅')">🔖 حفظ</span></div></div>`;
+});
+}
+function addPost(type){
+let t=document.getElementById('postText').value||type||"بوست جديد 🔥";
+posts.unshift({name:"أحمد Gabriel",time:"الآن",text:t,likes:0,comments:0});
+document.getElementById('postText').value='';render();alert('تم النشر ✅');
+}
+function likePost(i){posts[i].likes++;render();}
+function sharePost(){navigator.clipboard.writeText(location.href);alert('تم نسخ الرابط ✅');}
+function summarizePost(i){document.getElementById('aiSummary').style.display='block';document.getElementById('aiSummary').innerHTML='🤖 <b>ملخص AI:</b> '+posts[i].text.slice(0,40)+'... الخلاصة: تجربة رهيبة 🔥';}
+function summarizeAll(){alert('🤖 ملخص اليوم: 12 بوست جديد، أهمهم سارة عن الشات ومحمد عن الملصقات.');}
+function sendChat(){let v=document.getElementById('chatInput').value;if(!v)return;document.getElementById('chatBox').innerHTML+=`<div class="msg me">${v}</div>`;document.getElementById('chatInput').value='';setTimeout(()=>{document.getElementById('chatBox').innerHTML+=`<div class="msg other">تمام والله 😂🔥</div>`},800);}
+function createExternalChat(){let link=location.href+'?chat='+Math.random().toString(36).slice(2,8);document.getElementById('externalLink').innerHTML='رابطك:<br>'+link;alert('تم نسخ رابط الشات الخارجي ✅');}
+function createGroup(){let n=document.getElementById('groupName').value;if(!n)return alert('اكتب اسم القروب');alert('تم إنشاء قروب '+n+' ✅');closeModal('groupModal');}
+function openModal(id){document.getElementById(id).classList.remove('hidden');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');}
+function useSticker(s){document.getElementById('postText').value+=' '+s+' ';closeModal('stickerModal');closeModal('storeModal');alert('تمت إضافة الملصق '+s);}
+function setTheme(t){if(t=='pink')document.body.style.background='#2a0a2a';if(t=='gold')document.body.style.background='#1a1505';if(t=='blue')document.body.style.background='#0f172a';alert('تم تغيير الثيم ✅');}
+function toggleTheme(){document.body.style.background=document.body.style.background=='rgb(255, 255, 255)'?'#0f172a':'#fff';document.body.style.color=document.body.style.color=='black'?'#fff':'black';}
+function addStory(){let s=prompt('اكتب نص الستوري:');if(s)alert('تم نشر الستوري: '+s+' ✅');}
+function viewStory(n){alert('بتشاهد ستوري '+n+' 👀');}
+function createPoll(){let q=prompt('اكتب سؤال الاستطلاع:');if(q){posts.unshift({name:"أحمد Gabriel",time:"الآن",text:"📊 استطلاع: "+q+" - 👍 نعم / 👎 لا",likes:0,comments:0});render();}}
+function joinGroup(btn){btn.innerText='تم الانضمام ✅';btn.style.background='#22c55e';}
+function searchAll(){let v=document.getElementById('searchInput').value.toLowerCase();if(v.includes('#'))alert('بتبحث في هاشتاق '+v);}
+function showSection(s){alert('فتحت قسم '+s+' ✅');}
+render();
+</script>
+</body>
+  </html>
